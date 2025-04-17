@@ -132,8 +132,8 @@ namespace winrt::ExamAI::implementation
 
     void MainPage::OnTrain(IInspectable, IInspectable)
     {
-        void Train(unsigned int B = 1, unsigned int wi = 64, unsigned int he = 64, int EPOCHS = 40);
-		Train(1, 64, 64, 10);
+//        void Train(unsigned int B = 1, unsigned int wi = 64, unsigned int he = 64, int EPOCHS = 40);
+//		Train(1, 64, 64, 10);
     }
 
     void MainPage::OnTrainPython(IInspectable, IInspectable)

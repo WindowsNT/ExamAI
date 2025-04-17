@@ -79,13 +79,7 @@
                     <MenuFlyoutSeparator    />
                     <MenuFlyoutItem Text="{x:Bind txt(22),Mode=Oneway}" Click="OnTrainPython">
                     </MenuFlyoutItem>
-                    <MenuFlyoutItem Text="{x:Bind txt(23),Mode=Oneway}" IsEnabled="False">
-                    </MenuFlyoutItem>
-                    <MenuFlyoutSeparator    />
-                    <MenuFlyoutItem Text="Inference" Click="OnInference">
-                        <MenuFlyoutItem.KeyboardAccelerators>
-                            <KeyboardAccelerator Key="F6" />
-                        </MenuFlyoutItem.KeyboardAccelerators>
+                    <MenuFlyoutItem Text="{x:Bind txt(23),Mode=Oneway}" IsEnabled="False" Click="OnTrain">
                     </MenuFlyoutItem>
                 </MenuBarItem>
             </MenuBar>

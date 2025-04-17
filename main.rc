@@ -8,7 +8,7 @@ WE1 DATA "python\\net_0_weight.bin"
 WE2 DATA "python\\net_3_weight.bin"
 WE3 DATA "python\\net_6_weight.bin"
 
-PY1 DATA "python\\dataset_generator.py"
+PY1 DATA "python\\gen2.py"
 PY2 DATA "python\\train.py"
 
 VS_VERSION_INFO VERSIONINFO
