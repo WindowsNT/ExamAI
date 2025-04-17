@@ -1,0 +1,28 @@
+<root>
+	<questions>
+		<q q="What is the shape of the universe?" c="3">
+			<answers>
+				<a a="Triangle" />
+				<a a="Square" />
+				<a a="Sphere" />
+				<a a="Rectangle" />
+			</answers>
+		</q>
+		<q q="What is my teacher's name?" c="2">
+			<answers>
+				<a a="John" />
+				<a a="Michael" />
+				<a a="George" />
+				<a a="Catherine" />
+			</answers>
+		</q>
+		<q q="What is your favorite pet?" c="3">
+			<answers>
+				<a a="Claudia" />
+				<a a="Rosario" />
+				<a a="Magni" />
+				<a a="Titika" />
+			</answers>
+		</q>
+	</questions>
+</root>

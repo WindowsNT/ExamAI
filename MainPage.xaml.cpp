@@ -6,9 +6,11 @@
 
 using namespace winrt;
 using namespace winrt::Microsoft::UI::Xaml;
+std::vector<TRAIN_CLASS> Inference(std::vector<std::wstring> files, unsigned int B = 1, unsigned int wi = 64, unsigned int he = 64);
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
+std::vector<TRAIN_CLASS> AnswerTest(const wchar_t* rf);
 
 namespace winrt::ExamAI::implementation
 {
@@ -17,26 +19,190 @@ namespace winrt::ExamAI::implementation
         m_propertyChanged(*this, Microsoft::UI::Xaml::Data::PropertyChangedEventArgs{ s });
     }
 
-
-    void MainPage::OnTrain(IInspectable, IInspectable)
+    void MainPage::OnInference(IInspectable, IInspectable)
     {
-        void Train();
-        Train();
+//        Inference({ LR"(F:\WUITOOLS\ExamAI\python\synthetic_marks_drawn\0_empty\0_empty_0133.png)",LR"(F:\WUITOOLS\ExamAI\python\synthetic_marks_drawn\1_tick\1_tick_0213.png)",LR"(F:\WUITOOLS\ExamAI\python\synthetic_marks_drawn\2_cross\2_cross_0013.png)",LR"(F:\WUITOOLS\ExamAI\python\synthetic_marks_drawn\3_dot\3_dot_0113.png)" }, 1, 64, 64);
+    }
+
+    void MainPage::OnAnswer2(const wchar_t* jpg)
+    {
+        auto results = AnswerTest(jpg);
+        // must be same as tests
+        size_t MustCountBoxes = 0;
+        for (auto& e : exam.questions)
+        {
+            MustCountBoxes += e.a.size();
+        }
+
+        int Corrects = 0;
+        if (MustCountBoxes == results.size())
+        {
+            auto j = 0;
+            for (auto& e : exam.questions)
+            {
+                e.Grade = 0;
+                for (size_t c = 0; c < e.a.size(); c++)
+                {
+                    auto res = results[j];
+                    j++;
+                    if (res == TRAIN_CLASS::EMPTY)
+                        continue;
+                    if ((c + 1) == e.Correct)
+                    {
+                        e.Grade = 1;
+                        Corrects++;
+                    }
+                }
+            }
+        }
+        std::wstring ll = L"Correct answers: ";
+        ll += std::to_wstring(Corrects);
+        ll += L" of ";
+        ll += std::to_wstring(exam.questions.size());
+        ll += L" questions";
+        MessageBoxW(0, ll.c_str(), L"ExamAI", MB_OK);
+    }
+
+    void MainPage::OnAnswer(IInspectable, IInspectable)
+    {
+
+        OPENFILENAME of = { 0 };
+        of.lStructSize = sizeof(of);
+        of.hwndOwner = (HWND)0;
+        of.lpstrFilter = L"*.jpg\0*.jpg\0\0";
+        std::vector<wchar_t> fnx(10000);
+        of.lpstrFile = fnx.data();
+        of.nMaxFile = 10000;
+        of.lpstrDefExt = L"jpg";
+        of.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
+        if (!GetOpenFileName(&of))
+            return;
+
+		OnAnswer2(of.lpstrFile);
+    }
+
+    void MainPage::OnScan(IInspectable const&, IInspectable const&)
+    {
+        std::optional<std::vector<std::wstring>> TwFile(HWND hh, const wchar_t* path);
+        extern std::map<HWND, winrt::Windows::Foundation::IInspectable> windows;
+        HWND hw = 0;
+        for (auto& wi : windows)
+        {
+            if (wi.second == *this)
+            {
+				hw = wi.first;
+				break;
+            }
+        }
+
+
+        auto f = TwFile(hw, datafolder.c_str());
+        if (!f.has_value())
+            return;
+		for (auto& fi : *f)
+		{
+            OnAnswer2(fi.c_str());
+            DeleteFile(fi.c_str());
+		}
     }
 
 
+    void MainPage::OnGenerateDataset(IInspectable, IInspectable)
+    {
+        HRESULT InstallPython();
+        auto fo = PythonFolder();
+        if (FAILED(InstallPython()))
+            return;
+
+		std::wstring ff = fo + L"\\python.exe";
+		std::wstring ff2 = fo + L"\\examai_gensamples.py";
+		auto ve = ExtractResource(GetModuleHandle(0), L"PY1", L"DATA");
+
+		PutFile(ff2.c_str(), ve,true);   
+
+		std::wstring cmd = ff + L" " + ff2;
+        cmd += L" ";
+        cmd += datafolder;
+        cmd += L"\\dataset";
+        PushPopDir ppd(fo.c_str());
+        Run(cmd.c_str(), true, CREATE_NEW_CONSOLE);
+        std::wstring d = datafolder + L"\\dataset";
+        Locate(d.c_str());
+    }
+
+    void MainPage::OnTrain(IInspectable, IInspectable)
+    {
+        void Train(unsigned int B = 1, unsigned int wi = 64, unsigned int he = 64, int EPOCHS = 40);
+		Train(1, 64, 64, 10);
+    }
+
+    void MainPage::OnTrainPython(IInspectable, IInspectable)
+    {
+
+        HRESULT InstallPython();
+        auto fo = PythonFolder();
+        if (FAILED(InstallPython()))
+            return;
+
+        std::wstring ff = fo + L"\\python.exe";
+        std::wstring ff2 = fo + L"\\examai_train.py";
+        auto ve = ExtractResource(GetModuleHandle(0), L"PY2", L"DATA");
+        PutFile(ff2.c_str(), ve, true);
+
+        std::wstring cmd = ff + L" " + ff2;
+        cmd += L" ";
+        cmd += datafolder;
+        cmd += L"\\dataset";
+        cmd += L" ";
+        cmd += datafolder;
+        PushPopDir ppd(fo.c_str());
+        Run(cmd.c_str(), true, CREATE_NEW_CONSOLE);
+        std::wstring d = datafolder + L"\\dataset";
+        Locate(d.c_str());
+    }
+
     void MainPage::OnNew(IInspectable const&, IInspectable const&)
     {
+        winrt::ExamAI::MainWindow CreateWi();
+        CreateWi();
+        void PostThemeChange();
+        PostThemeChange();
 
     }
     void MainPage::OnOpen(IInspectable const&, IInspectable const&)
     {
 
+        OPENFILENAME of = { 0 };
+        of.lStructSize = sizeof(of);
+        of.hwndOwner = (HWND)0;
+        of.lpstrFilter = L"*.examai\0*.examai\0\0";
+        std::vector<wchar_t> fnx(10000);
+        of.lpstrFile = fnx.data();
+        of.nMaxFile = 10000;
+        of.lpstrDefExt = L"examai";
+        of.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
+        if (!GetOpenFileName(&of))
+            return;
+
+        Push();
+		XML3::XML x(of.lpstrFile);
+		XML3::XMLElement e = x.GetRootElement();
+		exam.Unser(e);
     }
     void MainPage::OnSave(IInspectable const&, IInspectable const&)
     {
 
     }
+
+    void MainPage::OnPrint(IInspectable const&, IInspectable const&)
+    {
+        std::wstring TempFile3();
+        std::wstring s = TempFile3();
+        s += L".html";
+		exam.Gen(s.c_str());
+		ShellExecute(0,L"open",s.c_str(),0,0,SW_SHOWMAXIMIZED);
+    }
+
     void MainPage::OnExit(IInspectable const&, IInspectable const&)
     {
         PostMessage((HWND)wnd(), WM_CLOSE, 0, 0);
@@ -45,30 +211,5 @@ namespace winrt::ExamAI::implementation
     {
 
     }
-
-    void MainPage::OnDark(IInspectable const&, IInspectable const&)
-    {
-        SettingsX->GetRootElement().vv("Theme").SetValueInt(2);
-        SettingsX->Save();
-        void PostThemeChange();
-        PostThemeChange();
-
-    }
-    void MainPage::OnLight(IInspectable const&, IInspectable const&)
-    {
-        SettingsX->GetRootElement().vv("Theme").SetValueInt(1);
-        SettingsX->Save();
-        void PostThemeChange();
-        PostThemeChange();
-
-    }
-    void MainPage::OnDefault(IInspectable const&, IInspectable const&)
-    {
-        SettingsX->GetRootElement().vv("Theme").SetValueInt(0);
-        SettingsX->Save();
-        void PostThemeChange();
-        PostThemeChange();
-    }
-
 
 }

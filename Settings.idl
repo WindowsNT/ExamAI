@@ -5,6 +5,7 @@ namespace ExamAI
     {
         Settings();
         static String txt(Int32 sidx);
+        String PythonLocation;
         void Refresh();
     }
 }

@@ -51,10 +51,10 @@ struct MLBUFFER
 		return ee;
 	}
 
-	HRESULT Create(ID3D12Device* d, dml::Expression e)
+	HRESULT Create(ID3D12Device* d, dml::Expression e,int multiplierbuffer = 1)
 	{
 		ee = e;
-		auto x = TensorSizeAlign(e.GetOutputDesc().totalTensorSizeInBytes);
+		auto x = TensorSizeAlign(e.GetOutputDesc().totalTensorSizeInBytes)*multiplierbuffer;
 		return Create2(d, x, false);
 	}
 	HRESULT Create2(ID3D12Device* d3D12Device, size_t x, [[maybe_unused]] bool ForceInternal);
@@ -160,8 +160,8 @@ public:
 	MLOP_ITEM& WithTag(LPARAM tag);
 	MLOP_ITEM* WithTag2(LPARAM tag);
 
-	MLOP& AddInput(dml::TensorDesc td, LPARAM tag = 0, bool NewBuffer = 1, BINDING_MODE Binding = BINDING_MODE::BIND_IN, std::optional<MLRESOURCE> bds = {});
-	MLOP& AddItem(dml::Expression td, LPARAM tag = 0, bool NewBuffer = 0, BINDING_MODE Binding = BINDING_MODE::NONE, std::optional<MLRESOURCE> bds = {}, uint32_t nit = 0);
+	MLOP& AddInput(dml::TensorDesc td, LPARAM tag = 0, int NewBuffer = 1, BINDING_MODE Binding = BINDING_MODE::BIND_IN, std::optional<MLRESOURCE> bds = {});
+	MLOP& AddItem(dml::Expression td, LPARAM tag = 0, int NewBuffer = 0, BINDING_MODE Binding = BINDING_MODE::NONE, std::optional<MLRESOURCE> bds = {}, uint32_t nit = 0);
 	MLOP& AddIntermediate(dml::Expression td, LPARAM tag = 0);
 	MLOP& AddOutput(dml::Expression td, LPARAM tag = 0);
 

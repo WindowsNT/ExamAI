@@ -9,6 +9,8 @@
 #pragma comment(lib,"wininet.lib")
 #pragma comment(lib,"dxgi.lib")
 #pragma comment(lib,"shell32.lib")
+#pragma comment(lib,"comsuppw.lib")
+#pragma comment(lib,"wiaguid.lib")
 #pragma comment(lib,"directml.lib")
 
 

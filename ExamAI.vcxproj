@@ -94,6 +94,9 @@
       <TreatWarningAsError Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">true</TreatWarningAsError>
       <TreatWarningAsError Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</TreatWarningAsError>
       <TreatWarningAsError Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</TreatWarningAsError>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">F:\opencv\opencv\modules\video\include\;F:\opencv\opencv\modules\gapi\include\;F:\opencv\opencv\modules\stitching\include\;F:\opencv\opencv\modules\photo\include;F:\opencv\opencv\modules\objdetect\include\;F:\opencv\opencv\modules\ml\include\;F:\opencv\opencv\modules\imgproc\include\;F:\opencv\opencv\modules\videoio\include;F:\opencv\opencv\modules\imgcodecs\include\;F:\opencv\opencv\modules\highgui\include\;F:\opencv\opencv\modules\dnn\include\;F:\opencv\opencv\modules\flann\include\;F:\opencv\opencv\modules\features2d\include\;F:\opencv\opencv\modules\calib3d\include;F:\opencv\opencv\modules\core\include;F:\opencv\s4\64;F:\opencv\opencv\include;$(ProjectDir);$(GeneratedFilesDir);$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">F:\opencv\opencv\modules\video\include\;F:\opencv\opencv\modules\gapi\include\;F:\opencv\opencv\modules\stitching\include\;F:\opencv\opencv\modules\photo\include;F:\opencv\opencv\modules\objdetect\include\;F:\opencv\opencv\modules\ml\include\;F:\opencv\opencv\modules\imgproc\include\;F:\opencv\opencv\modules\videoio\include;F:\opencv\opencv\modules\imgcodecs\include\;F:\opencv\opencv\modules\highgui\include\;F:\opencv\opencv\modules\dnn\include\;F:\opencv\opencv\modules\flann\include\;F:\opencv\opencv\modules\features2d\include\;F:\opencv\opencv\modules\calib3d\include;F:\opencv\opencv\modules\core\include;F:\opencv\s4\64;F:\opencv\opencv\include;$(ProjectDir);$(GeneratedFilesDir);$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">F:\opencv\opencv\modules\video\include\;F:\opencv\opencv\modules\gapi\include\;F:\opencv\opencv\modules\stitching\include\;F:\opencv\opencv\modules\photo\include;F:\opencv\opencv\modules\objdetect\include\;F:\opencv\opencv\modules\ml\include\;F:\opencv\opencv\modules\imgproc\include\;F:\opencv\opencv\modules\videoio\include;F:\opencv\opencv\modules\imgcodecs\include\;F:\opencv\opencv\modules\highgui\include\;F:\opencv\opencv\modules\dnn\include\;F:\opencv\opencv\modules\flann\include\;F:\opencv\opencv\modules\features2d\include\;F:\opencv\opencv\modules\calib3d\include;F:\opencv\opencv\modules\core\include;F:\opencv\s4\64;F:\opencv\opencv\include;$(ProjectDir);$(GeneratedFilesDir);$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)'=='Release'">
@@ -105,6 +108,9 @@
       <TreatWarningAsError Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">true</TreatWarningAsError>
       <TreatWarningAsError Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</TreatWarningAsError>
       <TreatWarningAsError Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</TreatWarningAsError>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">F:\opencv\opencv\modules\video\include\;F:\opencv\opencv\modules\gapi\include\;F:\opencv\opencv\modules\stitching\include\;F:\opencv\opencv\modules\photo\include;F:\opencv\opencv\modules\objdetect\include\;F:\opencv\opencv\modules\ml\include\;F:\opencv\opencv\modules\imgproc\include\;F:\opencv\opencv\modules\videoio\include;F:\opencv\opencv\modules\imgcodecs\include\;F:\opencv\opencv\modules\highgui\include\;F:\opencv\opencv\modules\dnn\include\;F:\opencv\opencv\modules\flann\include\;F:\opencv\opencv\modules\features2d\include\;F:\opencv\opencv\modules\calib3d\include;F:\opencv\opencv\modules\core\include;F:\opencv\s4\64;F:\opencv\opencv\include;$(ProjectDir);$(GeneratedFilesDir);$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">F:\opencv\opencv\modules\video\include\;F:\opencv\opencv\modules\gapi\include\;F:\opencv\opencv\modules\stitching\include\;F:\opencv\opencv\modules\photo\include;F:\opencv\opencv\modules\objdetect\include\;F:\opencv\opencv\modules\ml\include\;F:\opencv\opencv\modules\imgproc\include\;F:\opencv\opencv\modules\videoio\include;F:\opencv\opencv\modules\imgcodecs\include\;F:\opencv\opencv\modules\highgui\include\;F:\opencv\opencv\modules\dnn\include\;F:\opencv\opencv\modules\flann\include\;F:\opencv\opencv\modules\features2d\include\;F:\opencv\opencv\modules\calib3d\include;F:\opencv\opencv\modules\core\include;F:\opencv\s4\64;F:\opencv\opencv\include;$(ProjectDir);$(GeneratedFilesDir);$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">F:\opencv\opencv\modules\video\include\;F:\opencv\opencv\modules\gapi\include\;F:\opencv\opencv\modules\stitching\include\;F:\opencv\opencv\modules\photo\include;F:\opencv\opencv\modules\objdetect\include\;F:\opencv\opencv\modules\ml\include\;F:\opencv\opencv\modules\imgproc\include\;F:\opencv\opencv\modules\videoio\include;F:\opencv\opencv\modules\imgcodecs\include\;F:\opencv\opencv\modules\highgui\include\;F:\opencv\opencv\modules\dnn\include\;F:\opencv\opencv\modules\flann\include\;F:\opencv\opencv\modules\features2d\include\;F:\opencv\opencv\modules\calib3d\include;F:\opencv\opencv\modules\core\include;F:\opencv\s4\64;F:\opencv\opencv\include;$(ProjectDir);$(GeneratedFilesDir);$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -156,6 +162,7 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
       <SubType>Code</SubType>
     </ClCompile>
+    <ClCompile Include="opencv.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
@@ -166,6 +173,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </ClCompile>
     <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
+    <ClCompile Include="python.cpp" />
     <ClCompile Include="Settings.xaml.cpp">
       <DependentUpon>Settings.xaml</DependentUpon>
       <SubType>Code</SubType>

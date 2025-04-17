@@ -1,11 +1,13 @@
 
+from ast import arg
+from sys import argv
 import cv2
 import numpy as np
 import os
 import random
 from pathlib import Path
 
-output_dir = "synthetic_marks_drawn"
+output_dir = argv[1] if len(argv) > 1 else "dataset"
 img_size = 64
 samples_per_class = 1000
 classes = ["0_empty", "1_tick", "2_cross", "3_dot"]

@@ -82,6 +82,7 @@ winrt::ExamAI::MainWindow CreateWi()
 {
     winrt::ExamAI::MainWindow j;
     j.Activate();
+    j.ExtendsContentIntoTitleBar(true);
     static int One = 0;
 
     auto n = j.as<::IWindowNative>();
@@ -234,12 +235,42 @@ int __stdcall wWinMain(HINSTANCE h, HINSTANCE, [[maybe_unused]] PWSTR t, int)
     std::wstring de = p;
     CoTaskMemFree(p);
 
-    de += L"\\0-0-0-0-0";
+    de += L"\\25E65495-600E-4EC3-99B6-6C71F19360F0";
     SHCreateDirectory(0, de.c_str());
     datafolder = de.c_str();
     std::wstring sf = de + L"\\settings.xml";
     SettingsX = std::make_shared<XML3::XML>(sf.c_str());
 
+
+    // Extract the 7zr.exe there
+	std::wstring ff = de + L"\\7zr.exe";
+	if (!std::filesystem::exists(ff))
+	{
+		auto f = ExtractResource(GetModuleHandle(0), L"Zr", L"DATA");
+		if (f.size() > 100)
+		{
+			SaveBin(ff.c_str(), f);
+		}
+	}
+
+    // Also the weights if not there
+    if (1)
+    {
+        std::vector<float> w1 = ExtractResource<float>(GetModuleHandle(0), L"WE1", L"DATA");
+        std::vector<float> w2 = ExtractResource<float>(GetModuleHandle(0), L"WE2", L"DATA");
+        std::vector<float> w3 = ExtractResource<float>(GetModuleHandle(0), L"WE3", L"DATA");
+        
+        std::wstring ff1 = de + L"\\net_0_weight.bin";
+        PutFile<float>(ff1.c_str(), w1, false);
+
+        std::wstring ff2 = de + L"\\net_3_weight.bin";
+        PutFile<float>(ff2.c_str(), w2, false);
+
+        std::wstring ff3 = de + L"\\net_6_weight.bin";
+        PutFile<float>(ff3.c_str(), w3, false);
+
+
+    }
 
     winrt::init_apartment(winrt::apartment_type::single_threaded);
     ::winrt::Microsoft::UI::Xaml::Application::Start(

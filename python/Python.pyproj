@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>ff13b46b-579a-4196-a56f-3bb1a33b0590</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>dataset_generator.py</StartupFile>
+    <StartupFile>inference.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -22,6 +22,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="dataset_generator.py" />
+    <Compile Include="inference.py" />
+    <Compile Include="train.py" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

@@ -14,6 +14,17 @@ L"Light",
 L"Dark",
 L"Restart application to apply.",
 L"Help",
+L"Light mode",
+L"File",
+L"Train",
+L"Python Location:",
+L"Generate Training Dataset",
+L"Train (Python)",
+L"Train (DirectML)",
+L"Print",
+L"From Scanner",
+L"Evaluate",
+L"From File",
 };
 
-#define MAX_LANG 16
+#define MAX_LANG 27

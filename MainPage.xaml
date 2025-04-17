@@ -15,8 +15,8 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <MenuBar HorizontalAlignment="Stretch" x:Name="menu" Grid.Column="0">
-                <MenuBarItem Title="File" >
-                    <MenuFlyoutItem Text="{x:Bind txt(7)}" Click="OnNew" >
+                <MenuBarItem Title="{x:Bind txt(18),Mode=OneWay}" >
+                    <MenuFlyoutItem Text="{x:Bind txt(7),Mode=OneWay}" Click="OnNew" >
                         <MenuFlyoutItem.Icon>
                             <FontIcon Glyph="&#xE78B;"/>
                         </MenuFlyoutItem.Icon>
@@ -24,7 +24,7 @@
                             <KeyboardAccelerator Key="N" Modifiers="Control"/>
                         </MenuFlyoutItem.KeyboardAccelerators>
                     </MenuFlyoutItem>
-                    <MenuFlyoutItem Text="{x:Bind txt(8)}" Click="OnOpen">
+                    <MenuFlyoutItem Text="{x:Bind txt(8),Mode=OneWay}" Click="OnOpen">
                         <MenuFlyoutItem.Icon>
                             <FontIcon Glyph="&#xE8E5;"/>
                         </MenuFlyoutItem.Icon>
@@ -32,7 +32,7 @@
                             <KeyboardAccelerator Key="O" Modifiers="Control"/>
                         </MenuFlyoutItem.KeyboardAccelerators>
                     </MenuFlyoutItem>
-                    <MenuFlyoutItem Text="{x:Bind txt(9)}" Click="OnSave" >
+                    <MenuFlyoutItem Text="{x:Bind txt(9),Mode=OneWay}" Click="OnSave" >
                         <MenuFlyoutItem.Icon>
                             <FontIcon Glyph="&#xE74E;"/>
                         </MenuFlyoutItem.Icon>
@@ -40,7 +40,7 @@
                             <KeyboardAccelerator Key="S" Modifiers="Control"/>
                         </MenuFlyoutItem.KeyboardAccelerators>
                     </MenuFlyoutItem>
-                    <MenuFlyoutItem Text="{x:Bind txt(10)}" Click="OnSaveAs" >
+                    <MenuFlyoutItem Text="{x:Bind txt(10),Mode=OneWay}" Click="OnSaveAs" >
                         <MenuFlyoutItem.Icon>
                             <FontIcon Glyph="&#xE792;"/>
                         </MenuFlyoutItem.Icon>
@@ -49,33 +49,46 @@
                         </MenuFlyoutItem.KeyboardAccelerators>
                     </MenuFlyoutItem>
                     <MenuFlyoutSeparator/>
-                    <MenuFlyoutItem Text="{x:Bind txt(11)}" Click="OnExit" >
+                    <MenuFlyoutItem Text="{x:Bind txt(24),Mode=OneWay}" Click="OnPrint" >
+                        <MenuFlyoutItem.Icon>
+                            <FontIcon Glyph="&#xE792;"/>
+                        </MenuFlyoutItem.Icon>
+                        <MenuFlyoutItem.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="P" Modifiers="Control"/>
+                        </MenuFlyoutItem.KeyboardAccelerators>
+                    </MenuFlyoutItem>
+                    <MenuFlyoutSeparator/>
+                    <MenuFlyoutItem Text="{x:Bind txt(11),Mode=OneWay}" Click="OnExit" >
                         <MenuFlyoutItem.Icon>
                             <FontIcon Glyph="&#xF3B1;"/>
                         </MenuFlyoutItem.Icon>
                     </MenuFlyoutItem>
                 </MenuBarItem>
-                <MenuBarItem Title="Train" >
-                    <MenuFlyoutItem Text="Train" Click="OnTrain">
+                <MenuBarItem Title="{x:Bind txt(26),Mode=OneWay}" >
+                    <MenuFlyoutItem Text="{x:Bind txt(27),Mode=OneWay}" Click="OnAnswer">
                         <MenuFlyoutItem.KeyboardAccelerators>
-                            <KeyboardAccelerator Key="F7" />
+                            <KeyboardAccelerator Key="F8" />
+                        </MenuFlyoutItem.KeyboardAccelerators>
+                    </MenuFlyoutItem>
+                    <MenuFlyoutItem Text="{x:Bind txt(25),Mode=OneWay}" Click="OnScan">
+                    </MenuFlyoutItem>
+                </MenuBarItem>
+                <MenuBarItem Title="{x:Bind txt(19),Mode=OneWay}" >
+                    <MenuFlyoutItem Text="{x:Bind txt(21),Mode=OneWay}" Click="OnGenerateDataset">
+                    </MenuFlyoutItem>
+                    <MenuFlyoutSeparator    />
+                    <MenuFlyoutItem Text="{x:Bind txt(22),Mode=Oneway}" Click="OnTrainPython">
+                    </MenuFlyoutItem>
+                    <MenuFlyoutItem Text="{x:Bind txt(23),Mode=Oneway}" IsEnabled="False">
+                    </MenuFlyoutItem>
+                    <MenuFlyoutSeparator    />
+                    <MenuFlyoutItem Text="Inference" Click="OnInference">
+                        <MenuFlyoutItem.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="F6" />
                         </MenuFlyoutItem.KeyboardAccelerators>
                     </MenuFlyoutItem>
                 </MenuBarItem>
             </MenuBar>
-
-            <DropDownButton  Grid.Column="1" Margin="0,0,10,0">
-                <DropDownButton.Content>
-                    <FontIcon Glyph="&#xE793;"/>
-                </DropDownButton.Content>
-                <DropDownButton.Flyout>
-                    <MenuFlyout Placement="Bottom">
-                        <MenuFlyoutItem Text="{x:Bind txt(12)}" Click="OnDefault"/>
-                        <MenuFlyoutItem Text="{x:Bind txt(13)}" Click="OnLight"/>
-                        <MenuFlyoutItem Text="{x:Bind txt(14)}" Click="OnDark"/>
-                    </MenuFlyout>
-                </DropDownButton.Flyout>
-            </DropDownButton>
 
 
         </Grid>

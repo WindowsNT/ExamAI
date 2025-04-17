@@ -84,6 +84,79 @@ CComPtr<IWICBitmap> LoadWic(const wchar_t* o)
 
 
 
+int CALLBACK BrowseCallbackProc(
+    HWND hwnd,
+    UINT uMsg,
+    LPARAM,
+    LPARAM lpData
+)
+{
+    if (uMsg == BFFM_INITIALIZED)
+    {
+        ITEMIDLIST* sel = (ITEMIDLIST*)lpData;
+        if (!sel)
+            return 0;
+        SendMessage(hwnd, BFFM_SETSELECTION, false, (LPARAM)sel);
+    }
+    return 0;
+}
+
+
+std::wstring TempFile3()
+{
+    std::vector<wchar_t> td(1000);
+    GetTempPathW(1000, td.data());
+
+    wcscat_s(td.data(), 1000, L"\\");
+    std::vector<wchar_t> x(1000);
+    GetTempFileNameW(td.data(), L"tmp", 0, x.data());
+    DeleteFile(x.data());
+
+    return x.data();
+}
+
+
+bool BrowseFolder(HWND hh, const TCHAR* tit, const TCHAR* root, const TCHAR* sel, TCHAR* rv)
+{
+    IShellFolder* sf = 0;
+    SHGetDesktopFolder(&sf);
+    if (!sf)
+        return false;
+
+    BROWSEINFO bi = { 0 };
+    bi.hwndOwner = hh;
+    if (root && _tcslen(root))
+    {
+        PIDLIST_RELATIVE pd = 0;
+        wchar_t dn[1000] = { 0 };
+        wcscpy_s(dn, 1000, root);
+        sf->ParseDisplayName(hh, 0, dn, 0, &pd, 0);
+        bi.pidlRoot = pd;
+    }
+    bi.lpszTitle = tit;
+    bi.ulFlags = BIF_EDITBOX | BIF_NEWDIALOGSTYLE;
+    bi.lpfn = BrowseCallbackProc;
+    if (sel && _tcslen(sel))
+    {
+        PIDLIST_RELATIVE pd = 0;
+        wchar_t dn[1000] = { 0 };
+        wcscpy_s(dn, 1000, sel);
+        sf->ParseDisplayName(hh, 0, dn, 0, &pd, 0);
+        bi.lParam = (LPARAM)pd;
+    }
+
+    PIDLIST_ABSOLUTE pd = SHBrowseForFolder(&bi);
+    if (!pd)
+        return false;
+
+    SHGetPathFromIDList(pd, rv);
+    CoTaskMemFree(pd);
+    return true;
+}
+
+
+
+
 #include "english.hpp"
 
 
@@ -93,3 +166,66 @@ const wchar_t* s(size_t idx)
         return L"";
     return z_strings[idx];
 }
+
+
+
+DWORD Run(const wchar_t* y, bool W, DWORD flg)
+{
+    PROCESS_INFORMATION pInfo = { 0 };
+    STARTUPINFO sInfo = { 0 };
+
+    sInfo.cb = sizeof(sInfo);
+    wchar_t yy[1000];
+    swprintf_s(yy, 1000, L"%s", y);
+    CreateProcess(0, yy, 0, 0, 0, flg, 0, 0, &sInfo, &pInfo);
+    SetPriorityClass(pInfo.hProcess, IDLE_PRIORITY_CLASS);
+    SetThreadPriority(pInfo.hThread, THREAD_PRIORITY_IDLE);
+    if (W)
+        WaitForSingleObject(pInfo.hProcess, INFINITE);
+    DWORD ec = 0;
+    GetExitCodeProcess(pInfo.hProcess, &ec);
+    CloseHandle(pInfo.hProcess);
+    CloseHandle(pInfo.hThread);
+    return ec;
+}
+
+
+
+
+void Locate([[maybe_unused]] const wchar_t* fi)
+{
+    wchar_t buf[1024] = {};
+    swprintf_s(buf, 1024, L"/select,\"%s\"", fi);
+    ShellExecute(0, L"open", L"explorer.exe", buf, 0, SW_SHOWMAXIMIZED);
+}
+
+
+
+
+std::optional<std::vector<std::wstring>> TwFile(HWND hh, const wchar_t* szFolder)
+{
+    CComPtr<IWiaDevMgr2> d;
+    CoCreateInstance(CLSID_WiaDevMgr2, 0, CLSCTX_ALL, __uuidof(IWiaDevMgr2), (void**)&d);
+    if (!d)
+        return {};
+
+    std::vector<std::wstring> z;
+
+    LONG                nFiles = 0;
+    LPWSTR* rFilePaths = NULL;
+    CComPtr<IWiaItem2> pItem = NULL;
+    //    IWiaItem2* pItemRoot = NULL;
+     //   BSTR                devName = NULL;
+    auto hr = d->GetImageDlg(0, NULL, hh, _bstr_t(szFolder), _bstr_t(L"scanfile.jpg"), &nFiles, &rFilePaths, &pItem);
+    if (FAILED(hr))
+        return {};
+
+    for (LONG f = 0; f < nFiles; f++)
+    {
+        z.push_back(rFilePaths[f]);
+        SysFreeString(rFilePaths[f]);
+    }
+
+    return z;
+}
+

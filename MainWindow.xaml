@@ -21,13 +21,26 @@
         </NavigationView.MenuItems>
         <Frame x:Name="contentFrame"/>
 
-        <NavigationView.PaneFooter>
-            <StackPanel Orientation="Vertical">
-                <NavigationViewItem Icon="Help" Content="{x:Bind txt(16);}" />
-            </StackPanel>
-        </NavigationView.PaneFooter>
-    
-        
+     
+        <NavigationView.FooterMenuItems>
+
+            <NavigationViewItem Tag="m995" Content="Language" x:Name="ViewLanguage">
+                <NavigationViewItem.Icon>
+                    <FontIcon Glyph=""/>
+                </NavigationViewItem.Icon>
+            </NavigationViewItem>
+
+            <NavigationViewItem Tag="m18770" x:Name="ViewLight" Content="{x:Bind txt(17)}">
+                <NavigationViewItem.Icon>
+                    <FontIcon Glyph="&#xE793;"/>
+                </NavigationViewItem.Icon>
+            </NavigationViewItem>
+
+            <NavigationViewItem Icon="Help" x:Name="ViewHelp" Content="{x:Bind txt(16);}" />
+
+        </NavigationView.FooterMenuItems>
+
+
     </NavigationView>
 
 

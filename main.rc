@@ -2,7 +2,14 @@
 
 
 ICON_1 ICON "app.ico"
+ZR DATA "7zr.exe"
 
+WE1 DATA "python\\net_0_weight.bin"
+WE2 DATA "python\\net_3_weight.bin"
+WE3 DATA "python\\net_6_weight.bin"
+
+PY1 DATA "python\\dataset_generator.py"
+PY2 DATA "python\\train.py"
 
 VS_VERSION_INFO VERSIONINFO
 FILEVERSION    	1, 0, 0, 0

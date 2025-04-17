@@ -27,7 +27,10 @@ namespace winrt::ExamAI::implementation
         }
 
         void Refresh();
+        winrt::hstring PythonLocation();
+        void PythonLocation(winrt::hstring const& value);
 
+        void OnPythonLocation(IInspectable const&, IInspectable const&);
     };
 }
 

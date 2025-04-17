@@ -32,7 +32,26 @@ namespace winrt::ExamAI::implementation
 		auto n = it.Name();
 		if (n == L"ViewMain")
 			fr.Navigate(winrt::xaml_typename<winrt::ExamAI::MainPage>());
-	//	if (n == L"ViewNetwork")
+		if (n == L"ViewLight")
+		{
+			auto ct = SettingsX->GetRootElement().vv("Theme").GetValueInt(0);
+			if (ct == 0)
+			{
+				bool is_light_theme();
+				if (is_light_theme())
+					ct = 1;
+				else
+					ct = 2;
+			}
+			if (ct == 1)
+				SettingsX->GetRootElement().vv("Theme").SetValueInt(2);
+			else
+				SettingsX->GetRootElement().vv("Theme").SetValueInt(1);
+			SettingsX->Save();
+			void PostThemeChange();
+			PostThemeChange();
+			return;
+		}
 	//		fr.Navigate(winrt::xaml_typename<winrt::VisualDML::Network>());
 		/*		if (n == L"ViewAudio")
 			fr.Navigate(winrt::xaml_typename<winrt::tsed::Audio>());

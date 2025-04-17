@@ -8,7 +8,14 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-        <TextBlock>Settings</TextBlock>
+    <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top">
+        <TextBlock Margin="10,5,0,10" Text="Settings" />
+        <StackPanel Margin="10,5,0,10"  Orientation="Vertical">
+            <TextBlock Margin="10,10,0,10" Text="{x:Bind txt(20);}" />
+            <StackPanel Orientation="Horizontal">
+                <TextBox x:Name="PythonLocation1" Margin="10,5,0,10"  Text="{x:Bind PythonLocation,Mode=TwoWay}" />
+                <Button Content="..." Margin="10,5,0,10" Click="OnPythonLocation" />
+            </StackPanel>
+        </StackPanel>
     </StackPanel>
 </Page>

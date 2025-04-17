@@ -97,14 +97,14 @@ void MLOP::tape()
 	auto bp = dmlCompiledOperator->GetBindingProperties();
 	if (bp.TemporaryResourceSize)
 	{
-		tre.Create2(ml->d3D12Device, bp.TemporaryResourceSize, true);
+		tre.Create2(ml->d3D12Device, bp.TemporaryResourceSize, 1);
 		auto bu = tre.BindingDesc();
 		dmlBindingTable->BindTemporaryResource(&bu);
 
 	}
 	if (bp.PersistentResourceSize)
 	{
-		pre.Create2(ml->d3D12Device, bp.PersistentResourceSize, true);
+		pre.Create2(ml->d3D12Device, bp.PersistentResourceSize, 1);
 		auto bu = pre.BindingDesc();
 		dmlBindingTable->BindPersistentResource(&bu);
 	}
@@ -228,14 +228,14 @@ void MLOP::tapi()
 	auto bp = dmlOperatorInitializer->GetBindingProperties();
 	if (bp.TemporaryResourceSize)
 	{
-		tri.Create2(ml->d3D12Device, bp.TemporaryResourceSize, true);
+		tri.Create2(ml->d3D12Device, bp.TemporaryResourceSize, 1);
 		auto bu = tri.BindingDesc();
 		dmlBindingTable->BindTemporaryResource(&bu);
 
 	}
 	if (bp.PersistentResourceSize)
 	{
-		pri.Create2(ml->d3D12Device, bp.PersistentResourceSize, true);
+		pri.Create2(ml->d3D12Device, bp.PersistentResourceSize, 1);
 		auto bu = pri.BindingDesc();
 		dmlBindingTable->BindPersistentResource(&bu);
 	}
@@ -597,7 +597,7 @@ MLOP_ITEM& MLOP::Item(size_t i)
 	return items[i];
 }
 
-MLOP& MLOP::AddItem(dml::Expression expr, LPARAM tag, bool NewBuffer, BINDING_MODE Binding, std::optional<MLRESOURCE> bds, uint32_t nit)
+MLOP& MLOP::AddItem(dml::Expression expr, LPARAM tag, int NewBuffer, BINDING_MODE Binding, std::optional<MLRESOURCE> bds, uint32_t nit)
 {
 	if (tag != 0 && WithTag2(tag))
 		throw;
@@ -609,7 +609,7 @@ MLOP& MLOP::AddItem(dml::Expression expr, LPARAM tag, bool NewBuffer, BINDING_MO
 	if (NewBuffer)
 	{
 		item.buffer = MLBUFFER();
-		item.buffer->Create(ml->d3D12Device, expr);
+		item.buffer->Create(ml->d3D12Device, expr,NewBuffer);
 	}
 	item.bds = bds;
 	items.push_back(item);
@@ -625,10 +625,10 @@ MLOP& MLOP::AddIntermediate(dml::Expression td, LPARAM tag)
 
 MLOP& MLOP::AddOutput(dml::Expression td, LPARAM tag)
 {
-	return AddItem(td, tag, true, BINDING_MODE::BIND_OUT, {}, 0);
+	return AddItem(td, tag, 1, BINDING_MODE::BIND_OUT, {}, 0);
 }
 
-MLOP& MLOP::AddInput(dml::TensorDesc td, LPARAM tag, bool NewBuffer, BINDING_MODE Binding, std::optional<MLRESOURCE> bds)
+MLOP& MLOP::AddInput(dml::TensorDesc td, LPARAM tag, int NewBuffer, BINDING_MODE Binding, std::optional<MLRESOURCE> bds)
 {
 	uint32_t na = 0;
 	for (auto& it : items)

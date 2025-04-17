@@ -20,6 +20,8 @@
     <ClCompile Include="func.cpp" />
     <ClCompile Include="dmllib.cpp" />
     <ClCompile Include="train.cpp" />
+    <ClCompile Include="opencv.cpp" />
+    <ClCompile Include="python.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
