@@ -9,6 +9,7 @@
 
 using namespace winrt;
 using namespace winrt::Microsoft::UI::Xaml;
+using namespace winrt::Microsoft::UI::Xaml::Controls;
 std::vector<TRAIN_CLASS> Inference(std::vector<std::wstring> files, unsigned int B = 1, unsigned int wi = 64, unsigned int he = 64);
 
 // To learn more about WinUI, the WinUI project structure,
@@ -40,10 +41,13 @@ namespace winrt::ExamAI::implementation
 			{
 				if (!as.empty())
 					as += L",";
-                as += a;
+                as += a.a;
 			}
             it.Name2(as);
-
+			auto n = new LI_CONTEXT();
+			n->q = &q;
+			n->e = &exam;
+			it.Source((long long)n);
             items.Append(it);
         }
         return items;
@@ -57,6 +61,7 @@ namespace winrt::ExamAI::implementation
 		{
 			std::wstring s = __wargv[1];
             XML3::XML x(s.c_str());
+            fil = s;
             XML3::XMLElement e = x.GetRootElement();
             exam.Unser(e);
             Refresh();
@@ -85,7 +90,7 @@ namespace winrt::ExamAI::implementation
                     j++;
                     if (res == TRAIN_CLASS::EMPTY)
                         continue;
-                    if ((c + 1) == e.Correct)
+                    if (e.a[c].Correct == 1)
                     {
                         e.Grade = 1;
                         Corrects++;
@@ -122,7 +127,6 @@ namespace winrt::ExamAI::implementation
     void MainPage::OnScan(IInspectable const&, IInspectable const&)
     {
         std::optional<std::vector<std::wstring>> TwFile(HWND hh, const wchar_t* path);
-        extern std::map<HWND, winrt::Windows::Foundation::IInspectable> windows;
         HWND hw = 0;
         for (auto& wi : windows)
         {
@@ -173,6 +177,258 @@ namespace winrt::ExamAI::implementation
 //        void Train(unsigned int B = 1, unsigned int wi = 64, unsigned int he = 64, int EPOCHS = 40);
 //		Train(1, 64, 64, 10);
     }
+
+
+    void MainPage::OnLV1RightTapped(IInspectable const&, IInspectable const& a)
+    {
+        auto top = Content().as<Panel>();
+        auto lv = top.FindName(L"xListView").as<winrt::Microsoft::UI::Xaml::Controls::ListView>();
+        auto rt = a.as<winrt::Microsoft::UI::Xaml::Input::RightTappedRoutedEventArgs>();
+    }
+
+
+
+    void MainPage::OnLV2RightTapped(IInspectable const&, IInspectable const& a)
+    {
+        auto top = Content().as<Panel>();
+        auto lv = top.FindName(L"xListView2").as<winrt::Microsoft::UI::Xaml::Controls::ListView>();
+        auto rt = a.as<winrt::Microsoft::UI::Xaml::Input::RightTappedRoutedEventArgs>();
+    }
+
+
+    void MainPage::OnAddQ(IInspectable const&, IInspectable const&)
+    {
+        QUESTION q;
+		q.q = L"Question";
+        Push();
+        exam.questions.push_back(q);
+        Refresh();
+    }
+
+    void MainPage::OnAddA(IInspectable const&, IInspectable const&)
+    {
+        Push();
+        auto top = Content().as<Panel>();
+        auto lv = top.FindName(L"xListView").as<winrt::Microsoft::UI::Xaml::Controls::ListView>();
+        auto items = lv.Items();
+        for (unsigned int i = 0 ; i < items.Size() ; i++)
+        {
+            auto it2 = items.GetAt(i);
+            auto iti = it2.as<winrt::ExamAI::Item>();
+            auto it = lv.ContainerFromItem(it2).as<winrt::Microsoft::UI::Xaml::Controls::ListViewItem>();
+            if (it.IsSelected())
+            {
+                // Find the Q
+                auto n = (LI_CONTEXT*)iti.Source();
+                ANSWER ans;
+				ans.a = L"Answer";
+				n->q->a.push_back(ans);
+            }
+        }
+        Refresh();
+    }
+
+
+    void MainPage::OnSelectAllA(IInspectable const&, IInspectable const&)
+    {
+
+        auto top = Content().as<Panel>();
+        auto lv = top.FindName(L"xListView").as<winrt::Microsoft::UI::Xaml::Controls::ListView>();
+        auto items = lv.Items();
+        for (auto it2 : items)
+        {
+            auto iti = it2.as<winrt::ExamAI::Item>();
+            auto it = lv.ContainerFromItem(it2).as<winrt::Microsoft::UI::Xaml::Controls::ListViewItem>();
+            if (it.IsSelected())
+            {
+                auto ctr = it.ContentTemplateRoot();
+                auto dt = ctr.as<Panel>();
+                auto lv2 = dt.FindName(L"xListView2").as<winrt::Microsoft::UI::Xaml::Controls::ListView>();
+                it.IsSelected(false);
+                if (lv2)
+                {
+                    auto items2 = lv2.Items();
+                    for (auto it3 : items2)
+                    {
+                        auto it4 = lv2.ContainerFromItem(it3).as<winrt::Microsoft::UI::Xaml::Controls::ListViewItem>();
+                        it4.IsSelected(true);
+                    }
+                }
+
+            }
+        }
+    }
+
+
+    void MainPage::OnUndo(IInspectable const&, IInspectable const&)
+    {
+		if (undos.size() == 0)
+			return;
+		redos.push(exam);
+		exam = undos.top();
+		undos.pop();
+		Refresh();
+    }
+    void MainPage::OnRedo(IInspectable const&, IInspectable const&)
+    {
+		if (redos.size() == 0)
+			return;
+		undos.push(exam);
+		exam = redos.top();
+		redos.pop();
+		Refresh();
+    }
+
+    void MainPage::OnMark(int M)
+    {
+        bool X = 0;
+        auto top = Content().as<Panel>();
+        auto lv = top.FindName(L"xListView").as<winrt::Microsoft::UI::Xaml::Controls::ListView>();
+        auto items = lv.Items();
+        for (auto it2 : items)
+        {
+            auto iti = it2.as<winrt::ExamAI::Item>();
+            auto it = lv.ContainerFromItem(it2).as<winrt::Microsoft::UI::Xaml::Controls::ListViewItem>();
+            auto ctr = it.ContentTemplateRoot();
+            auto dt = ctr.as<Panel>();
+            auto lv2 = dt.FindName(L"xListView2").as<winrt::Microsoft::UI::Xaml::Controls::ListView>();
+            if (lv2)
+            {
+                auto n = (LI_CONTEXT*)iti.Source();
+                auto items2 = lv2.Items();
+                for (auto it3 : items2)
+                {
+                    auto it4 = lv2.ContainerFromItem(it3).as<winrt::Microsoft::UI::Xaml::Controls::ListViewItem>();
+                    if (it4.IsSelected())
+                    {
+                        auto it3i = it3.as<winrt::ExamAI::Item>();
+                        auto n2 = (LI_CONTEXT*)it3i.Source();
+                        auto q = n->q;
+                        for (size_t yy = 0; yy < exam.questions.size(); yy++)
+                        {
+                            if (q == &exam.questions[yy])
+                            {
+                                auto a = n2->a;
+                                for (size_t yyy = 0; yyy < q->a.size(); yyy++)
+                                {
+                                    if (a == &q->a[yyy])
+                                    {
+                                        if (!X)
+                                            Push();
+                                        X = 1;
+                                        q->a[yyy].Correct = M;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        Refresh();
+    }
+    void MainPage::OnMarkC(IInspectable const&, IInspectable const&)
+    {
+        OnMark(1);
+    }
+
+	void MainPage::OnMarkI(IInspectable const&, IInspectable const&)
+	{
+        OnMark(0);
+	}
+
+    void MainPage::OnSelectAll(IInspectable const&, IInspectable const&)
+    {
+        auto top = Content().as<Panel>();
+        auto lv = top.FindName(L"xListView").as<winrt::Microsoft::UI::Xaml::Controls::ListView>();
+        auto items = lv.Items();
+        for (auto it2 : items)
+        {
+            auto it = lv.ContainerFromItem(it2).as<winrt::Microsoft::UI::Xaml::Controls::ListViewItem>();
+            it.IsSelected(true);
+        }
+    }
+
+    void MainPage::OnDeleteQ(IInspectable const&, IInspectable const&)
+    {
+        auto top = Content().as<Panel>();
+		auto lv = top.FindName(L"xListView").as<winrt::Microsoft::UI::Xaml::Controls::ListView>();
+        auto items = lv.Items();
+		if (items.Size() == 0)
+			return;
+        bool X = 0;
+        for (int i = items.Size() - 1 ; i >= 0 ; i--)
+        {
+            auto it2 = items.GetAt((int)i).as<winrt::ExamAI::Item>();
+			auto it = lv.ContainerFromItem(it2).as<winrt::Microsoft::UI::Xaml::Controls::ListViewItem>();
+            if (it.IsSelected())
+            {
+                if (!X)
+                    Push();
+                X = 1;
+                // Get an Item
+                auto n = (LI_CONTEXT*)it2.Source();
+                auto q = n->q;
+				for (size_t yy =  0 ; yy < exam.questions.size() ; yy++)
+				{
+					if (q == &exam.questions[yy])
+					{
+						exam.questions.erase(exam.questions.begin() + yy);
+						break;
+					}
+				}
+            }
+        }
+
+        if (!X)
+        {
+            // Check subs
+            for (auto it2 : items)
+            {
+                auto iti = it2.as<winrt::ExamAI::Item>();
+                auto it = lv.ContainerFromItem(it2).as<winrt::Microsoft::UI::Xaml::Controls::ListViewItem>();
+                auto ctr = it.ContentTemplateRoot();
+                auto dt = ctr.as<Panel>();
+                auto lv2 = dt.FindName(L"xListView2").as<winrt::Microsoft::UI::Xaml::Controls::ListView>();
+                if (lv2)
+                {
+                    auto n = (LI_CONTEXT*)iti.Source();
+                    auto items2 = lv2.Items();
+                    for (auto it3 : items2)
+                    {
+                        auto it4 = lv2.ContainerFromItem(it3).as<winrt::Microsoft::UI::Xaml::Controls::ListViewItem>();
+                        if (it4.IsSelected())
+                        {
+                            auto it3i = it3.as<winrt::ExamAI::Item>();
+                            auto n2 = (LI_CONTEXT*)it3i.Source();
+                            auto q = n->q;
+                            for (size_t yy = 0; yy < exam.questions.size(); yy++)
+                            {
+                                if (q == &exam.questions[yy])
+                                {
+                                    auto a = n2->a;
+                                    for (size_t yyy = 0; yyy < q->a.size(); yyy++)
+                                    {
+                                        if (a == &q->a[yyy])
+                                        {
+                                            if (!X)
+                                                Push();
+                                            X = 1;
+                                            q->a.erase(q->a.begin() + yyy);
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+
+                        }
+                    }
+                }
+            }
+        }
+        Refresh();
+    }
+
 
     void MainPage::OnValidatePython(IInspectable, IInspectable)
     {
@@ -251,9 +507,28 @@ namespace winrt::ExamAI::implementation
 		exam.Unser(e);
         Refresh();
     }
-    void MainPage::OnSave(IInspectable const&, IInspectable const&)
+    void MainPage::OnSave(IInspectable const& c1, IInspectable const& c2)
     {
+        if (exam.questions.size() == 0)
+        {
+			OnSaveAs(c1, c2);
+            return;
+        }
 
+        DeleteFile(fil.c_str());
+        XML3::XML x(fil.c_str());
+        exam.Ser(x.GetRootElement());
+        x.Save();
+
+    }
+
+    void MainPage::OnPrintAll(IInspectable const&, IInspectable const&)
+    {
+        std::wstring TempFile3();
+        std::wstring s = TempFile3();
+        s += L".html";
+        exam.Gen(s.c_str(),true);
+        ShellExecute(0, L"open", s.c_str(), 0, 0, SW_SHOWMAXIMIZED);
     }
 
     void MainPage::OnPrint(IInspectable const&, IInspectable const&)
@@ -271,7 +546,23 @@ namespace winrt::ExamAI::implementation
     }
     void MainPage::OnSaveAs(IInspectable const&, IInspectable const&)
     {
+        OPENFILENAME of = { 0 };
+        of.lStructSize = sizeof(of);
+        of.hwndOwner = (HWND)0;
+        of.lpstrFilter = L"*.examai\0*.examai\0\0";
+        std::vector<wchar_t> fnx(10000);
+        of.lpstrFile = fnx.data();
+        of.nMaxFile = 10000;
+        of.lpstrDefExt = L"examai";
+        of.Flags = OFN_PATHMUSTEXIST | OFN_OVERWRITEPROMPT;
+        if (!GetSaveFileName(&of))
+            return;
 
+        fil = of.lpstrFile;
+		DeleteFile(of.lpstrFile);
+		XML3::XML x(of.lpstrFile);
+        exam.Ser(x.GetRootElement());
+		x.Save();
     }
 
 }

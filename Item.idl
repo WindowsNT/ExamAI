@@ -6,9 +6,11 @@ namespace ExamAI
 			Item();
 			String Name1;
 			String Name2;
-			String Source;
+			Int64 Source;
 			Boolean Sel{ get; set; };
+			Boolean Correct;
 			Microsoft.UI.Xaml.Media.Brush ColorX{ get; };
+			Windows.Foundation.Collections.IObservableVector<Item> li_Answers{ get; };
 
 	}
 }

@@ -1,28 +1,37 @@
-<root>
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<e n="Test 1">
+	<classrooms>
+		<class n="ΛΓΕπ" >
+			<students>
+				<s n="ST A" />
+				<s n="ST B" />
+			</students>
+		</class>
+	</classrooms>
 	<questions>
-		<q q="What is the shape of the universe?" c="3">
+		<q q="What is the shape of the universe?">
 			<answers>
-				<a a="Triangle" />
-				<a a="Square" />
-				<a a="Sphere" />
-				<a a="Rectangle" />
+				<a a="Triangle" c="0"/>
+				<a a="Square" c="0"/>
+				<a a="Sphere" c="1"/>
+				<a a="Rectangle" c="0"/>
 			</answers>
 		</q>
-		<q q="What is my teacher's name?" c="2">
+		<q q="What is my teacher's name?">
 			<answers>
-				<a a="John" />
-				<a a="Michael" />
-				<a a="George" />
-				<a a="Catherine" />
+				<a a="John" c="0"/>
+				<a a="Michael" c="1"/>
+				<a a="George" c="0"/>
+				<a a="Catherine" c="0"/>
 			</answers>
 		</q>
-		<q q="What is your favorite pet?" c="4">
+		<q q="What is your favorite pet?">
 			<answers>
-				<a a="Claudia" />
-				<a a="Rosario" />
-				<a a="Magni" />
-				<a a="Titika" />
+				<a a="Claudia" c="0"/>
+				<a a="Rosario" c="0"/>
+				<a a="Magni" c="0"/>
+				<a a="Titika" c="1"/>
 			</answers>
 		</q>
 	</questions>
-</root>
+</e>

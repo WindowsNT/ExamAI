@@ -1,7 +1,6 @@
 #include "pch.h"
 
 
-
 std::wstring PythonFolder()
 {
 	auto pyf = SettingsX->GetRootElement().vv("pyf").GetWideValue();

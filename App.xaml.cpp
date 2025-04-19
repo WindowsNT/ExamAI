@@ -57,6 +57,7 @@ void PostThemeChange()
             auto fr = topnv.FindName(L"contentFrame");
             if (fr)
             {
+				
                 auto fr2 = fr.try_as<Frame>();
                 if (fr2)
                 {
@@ -68,6 +69,12 @@ void PostThemeChange()
                         auto c2 = c.try_as<FrameworkElement>();
                         if (c2)
                             c2.RequestedTheme(et);
+
+                        auto page = c2.try_as<winrt::ExamAI::MainPage>();
+                        if (page)
+                        {
+                            page.Refresh();
+                        }
                     }
                 }
             }

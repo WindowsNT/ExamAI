@@ -229,3 +229,6 @@ std::optional<std::vector<std::wstring>> TwFile(HWND hh, const wchar_t* szFolder
     return z;
 }
 
+
+
+#include "qrcodegen.cpp"

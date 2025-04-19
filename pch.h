@@ -187,3 +187,4 @@ DWORD Run(const wchar_t* y, bool W, DWORD flg);
 void Locate([[maybe_unused]] const wchar_t* fi);
 
 
+#include "qrcodegen.hpp"

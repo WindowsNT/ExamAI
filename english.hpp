@@ -21,12 +21,22 @@ L"Python Location:",
 L"Generate Training Dataset",
 L"Train (Python)",
 L"Train (DirectML)",
-L"Print",
+L"Print Single",
 L"From Scanner",
 L"Evaluate",
 L"From File",
 L"Validate",
 L"Questions",
+L"Add",
+L"Delete selected",
+L"Select all",
+L"Undo",
+L"Redo",
+L"Answers",
+L"Mark correct",
+L"Mark incorrect",
+L"Print All",
+
 };
 
-#define MAX_LANG 29
+#define MAX_LANG 38
