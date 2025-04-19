@@ -4,6 +4,9 @@
 #include "MainPage.g.cpp"
 #endif
 
+#include "Item.h"
+#include "Item.g.h"
+
 using namespace winrt;
 using namespace winrt::Microsoft::UI::Xaml;
 std::vector<TRAIN_CLASS> Inference(std::vector<std::wstring> files, unsigned int B = 1, unsigned int wi = 64, unsigned int he = 64);
@@ -24,6 +27,41 @@ namespace winrt::ExamAI::implementation
 //        Inference({ LR"(F:\WUITOOLS\ExamAI\python\synthetic_marks_drawn\0_empty\0_empty_0133.png)",LR"(F:\WUITOOLS\ExamAI\python\synthetic_marks_drawn\1_tick\1_tick_0213.png)",LR"(F:\WUITOOLS\ExamAI\python\synthetic_marks_drawn\2_cross\2_cross_0013.png)",LR"(F:\WUITOOLS\ExamAI\python\synthetic_marks_drawn\3_dot\3_dot_0113.png)" }, 1, 64, 64);
     }
 
+
+    winrt::Windows::Foundation::Collections::IObservableVector<winrt::ExamAI::Item> MainPage::li_Questions()
+    {
+        auto items = single_threaded_observable_vector<winrt::ExamAI::Item>();
+        for (auto& q : exam.questions)
+        {
+            winrt::ExamAI::Item it;
+            it.Name1(q.q);
+            std::wstring as;
+			for (auto& a : q.a)
+			{
+				if (!as.empty())
+					as += L",";
+                as += a;
+			}
+            it.Name2(as);
+
+            items.Append(it);
+        }
+        return items;
+
+    }
+
+
+    void MainPage::Loaded(IInspectable const&, IInspectable const&)
+    {
+		if (__argc > 1)
+		{
+			std::wstring s = __wargv[1];
+            XML3::XML x(s.c_str());
+            XML3::XMLElement e = x.GetRootElement();
+            exam.Unser(e);
+            Refresh();
+        }
+    }
     void MainPage::OnAnswer2(const wchar_t* jpg)
     {
         auto results = AnswerTest(jpg);
@@ -136,9 +174,32 @@ namespace winrt::ExamAI::implementation
 //		Train(1, 64, 64, 10);
     }
 
+    void MainPage::OnValidatePython(IInspectable, IInspectable)
+    {
+        HRESULT InstallPython();
+        auto fo = PythonFolder();
+        if (FAILED(InstallPython()))
+            return;
+
+        std::wstring ff = fo + L"\\python.exe";
+        std::wstring ff2 = fo + L"\\examai_validate.py";
+        auto ve = ExtractResource(GetModuleHandle(0), L"PY3", L"DATA");
+        PutFile(ff2.c_str(), ve, true);
+
+        std::wstring cmd = ff + L" " + ff2;
+        cmd += L" ";
+        cmd += datafolder;
+        cmd += L"\\ticknet.onnx";
+        cmd += L" ";
+        cmd += datafolder;
+        cmd += L"\\val_dataset.pt";
+        PushPopDir ppd(fo.c_str());
+        Run(cmd.c_str(), true, CREATE_NEW_CONSOLE);
+
+    }
+
     void MainPage::OnTrainPython(IInspectable, IInspectable)
     {
-
         HRESULT InstallPython();
         auto fo = PythonFolder();
         if (FAILED(InstallPython()))
@@ -188,6 +249,7 @@ namespace winrt::ExamAI::implementation
 		XML3::XML x(of.lpstrFile);
 		XML3::XMLElement e = x.GetRootElement();
 		exam.Unser(e);
+        Refresh();
     }
     void MainPage::OnSave(IInspectable const&, IInspectable const&)
     {

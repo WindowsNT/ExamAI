@@ -25,6 +25,8 @@ L"Print",
 L"From Scanner",
 L"Evaluate",
 L"From File",
+L"Validate",
+L"Questions",
 };
 
-#define MAX_LANG 27
+#define MAX_LANG 29

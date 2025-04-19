@@ -268,9 +268,25 @@ int __stdcall wWinMain(HINSTANCE h, HINSTANCE, [[maybe_unused]] PWSTR t, int)
 
         std::wstring ff3 = de + L"\\net_6_weight.bin";
         PutFile<float>(ff3.c_str(), w3, false);
-
-
     }
+
+    // And the biases if not there
+    if (1)
+    {
+        std::vector<float> w1 = ExtractResource<float>(GetModuleHandle(0), L"BI1", L"DATA");
+        std::vector<float> w2 = ExtractResource<float>(GetModuleHandle(0), L"BI2", L"DATA");
+        std::vector<float> w3 = ExtractResource<float>(GetModuleHandle(0), L"BI3", L"DATA");
+
+        std::wstring ff1 = de + L"\\net_0_bias.bin";
+        PutFile<float>(ff1.c_str(), w1, false);
+
+        std::wstring ff2 = de + L"\\net_3_bias.bin";
+        PutFile<float>(ff2.c_str(), w2, false);
+
+        std::wstring ff3 = de + L"\\net_6_bias.bin";
+        PutFile<float>(ff3.c_str(), w3, false);
+    }
+
 
     winrt::init_apartment(winrt::apartment_type::single_threaded);
     ::winrt::Microsoft::UI::Xaml::Application::Start(

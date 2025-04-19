@@ -6,15 +6,11 @@
     xmlns:local="using:ExamAI"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Loaded="Loaded"
     mc:Ignorable="d">
 
     <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Top">
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <MenuBar HorizontalAlignment="Stretch" x:Name="menu" Grid.Column="0">
+            <MenuBar HorizontalAlignment="Stretch" x:Name="menu" >
                 <MenuBarItem Title="{x:Bind txt(18),Mode=OneWay}" >
                     <MenuFlyoutItem Text="{x:Bind txt(7),Mode=OneWay}" Click="OnNew" >
                         <MenuFlyoutItem.Icon>
@@ -71,20 +67,50 @@
                         </MenuFlyoutItem.KeyboardAccelerators>
                     </MenuFlyoutItem>
                     <MenuFlyoutItem Text="{x:Bind txt(25),Mode=OneWay}" Click="OnScan">
+                        <MenuFlyoutItem.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="F8" Modifiers="Shift" />
+                        </MenuFlyoutItem.KeyboardAccelerators>
                     </MenuFlyoutItem>
                 </MenuBarItem>
                 <MenuBarItem Title="{x:Bind txt(19),Mode=OneWay}" >
                     <MenuFlyoutItem Text="{x:Bind txt(21),Mode=OneWay}" Click="OnGenerateDataset">
+                        <MenuFlyoutItem.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="F2" Modifiers="Menu,Shift"/>
+                        </MenuFlyoutItem.KeyboardAccelerators>
                     </MenuFlyoutItem>
                     <MenuFlyoutSeparator    />
                     <MenuFlyoutItem Text="{x:Bind txt(22),Mode=Oneway}" Click="OnTrainPython">
+                        <MenuFlyoutItem.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="F3" Modifiers="Menu,Shift"/>
+                        </MenuFlyoutItem.KeyboardAccelerators>
                     </MenuFlyoutItem>
+                    <!--
+                    <MenuFlyoutItem Text="{x:Bind txt(28),Mode=Oneway}" Click="OnValidatePython">
+                        <MenuFlyoutItem.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="F3" Modifiers="Menu,Control"/>
+                        </MenuFlyoutItem.KeyboardAccelerators>
+                    </MenuFlyoutItem>
+                    -->
                     <MenuFlyoutItem Text="{x:Bind txt(23),Mode=Oneway}" IsEnabled="False" Click="OnTrain">
                     </MenuFlyoutItem>
                 </MenuBarItem>
             </MenuBar>
 
-
-        </Grid>
+            <Pivot>
+                <PivotItem Header="{x:Bind txt(29),Mode=OneWay}">
+                <ListView x:Name="xListView" SelectionMode="Multiple" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ItemsSource="{x:Bind li_Questions,Mode=OneWay}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="local:Item">
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock Text="{x:Bind Name1, Mode=OneWay}" FontSize="20"/>
+                                <TextBlock Text="{x:Bind Name2, Mode=OneWay}" FontSize="15"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </PivotItem>
+            </Pivot>
+            
+            
     </StackPanel>
 </Page>

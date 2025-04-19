@@ -205,6 +205,7 @@ std::vector<TRAIN_CLASS> AnswerTest(const wchar_t* rf)
 #ifdef _DEBUG
 	for (const auto& r : boxes)
 		cv::rectangle(img, r, cv::Scalar(0, 255, 0), 2);
+	cv::namedWindow("Detected Boxes", cv::WINDOW_NORMAL);
 	cv::imshow("Detected Boxes", img);
 	cv::waitKey(0);
 #endif

@@ -1,6 +1,9 @@
 #pragma once
 
 #include "MainPage.g.h"
+#include "Item.h"
+#include "Item.g.h"
+
 
 
 
@@ -153,6 +156,7 @@ namespace winrt::ExamAI::implementation
 			redos.push(exam);
 			exam = undos.top();
 			undos.pop();
+            Refresh();
         }
 
         void Redo()
@@ -162,7 +166,8 @@ namespace winrt::ExamAI::implementation
 			undos.push(exam);
 			exam = redos.top();
 			redos.pop();
-		
+            Refresh();
+
         }
 
         MainPage()
@@ -198,6 +203,7 @@ namespace winrt::ExamAI::implementation
         winrt::event<Microsoft::UI::Xaml::Data::PropertyChangedEventHandler> m_propertyChanged;
         void Refresh(std::vector<std::wstring> strs);
         void Refresh(const wchar_t* s = L"");
+        void Loaded(IInspectable const&, IInspectable const&);
         void OnNew(IInspectable const&, IInspectable const&);
         void OnOpen(IInspectable const&, IInspectable const&);
         void OnScan(IInspectable const&, IInspectable const&);
@@ -208,9 +214,12 @@ namespace winrt::ExamAI::implementation
         void OnGenerateDataset(IInspectable, IInspectable);
         void OnTrain(IInspectable, IInspectable);
         void OnTrainPython(IInspectable, IInspectable);
+        void OnValidatePython(IInspectable, IInspectable);
         void OnInference(IInspectable, IInspectable);
         void OnAnswer(IInspectable, IInspectable);
         void OnAnswer2(const wchar_t* jpg);
+        winrt::Windows::Foundation::Collections::IObservableVector<winrt::ExamAI::Item> li_Questions();
+
 
 
     };

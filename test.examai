@@ -16,7 +16,7 @@
 				<a a="Catherine" />
 			</answers>
 		</q>
-		<q q="What is your favorite pet?" c="3">
+		<q q="What is your favorite pet?" c="4">
 			<answers>
 				<a a="Claudia" />
 				<a a="Rosario" />

@@ -1,3 +1,5 @@
+import "Item.idl";
+
 namespace ExamAI
 {
     [default_interface]
@@ -7,5 +9,6 @@ namespace ExamAI
         static String txt(Int32 sidx);
         void Refresh();
 		Int64 wnd;
+        Windows.Foundation.Collections.IObservableVector<Item> li_Questions{ get; };
     }
 }
