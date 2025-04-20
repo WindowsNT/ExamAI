@@ -3,13 +3,16 @@
 struct STUDENT
 {
 	std::wstring n;
+	int Grade = 0;
 	void Ser(XML3::XMLElement& e)
 	{
 		e.vv("n").SetValue(n.c_str());
+		e.vv("g").SetValueInt(Grade);
 	}
 	void Unser(XML3::XMLElement& e)
 	{
 		n = e.vv("n").GetWideValue();
+		Grade = e.vv("g").GetValueInt(0);
 	}
 };
 

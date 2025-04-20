@@ -36,7 +36,8 @@ L"Answers",
 L"Mark correct",
 L"Mark incorrect",
 L"Print All",
-
+L"From Upload",
+L"Upload",
 };
 
-#define MAX_LANG 38
+#define MAX_LANG 40

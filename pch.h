@@ -1,6 +1,8 @@
 #pragma once
 #define DISABLE_XAML_GENERATED_MAIN
 #define DML_TARGET_VERSION_USE_LATEST
+#include <winsock2.h>
+#include <ws2tcpip.h>
 #include <windows.h>
 #include <unknwn.h>
 #include <restrictederrorinfo.h>
@@ -19,9 +21,12 @@
 #include <wia.h>
 #include <vector>
 #include <shlobj.h>
+#include <future>
 #include <cmath>
 #include <cstdlib>
 #include <sstream>
+#include <iphlpapi.h>
+#include <netlistmgr.h>
 #include <filesystem>
 #include <ctime>
 #include <fstream>
@@ -33,6 +38,9 @@
 #include <wincodec.h>
 #include <comutil.h>
 #include <numeric>
+#define SECURITY_WIN32
+#include <schannel.h>
+#include <sspi.h>
 
 // Undefine GetCurrentTime macro to prevent
 // conflict with Storyboard::GetCurrentTime
@@ -64,6 +72,9 @@
 #include <winrt/Microsoft.UI.Xaml.Media.h>
 #include <winrt/Microsoft.UI.Xaml.Media.Imaging.h>
 #include <winrt/Microsoft.UI.Dispatching.h>
+#include <winrt/Windows.Storage.Streams.h>
+#include <winrt/Windows.UI.Xaml.Media.Imaging.h>
+#include <winrt/Microsoft.UI.Xaml.Controls.h>
 #include <wil/cppwinrt_helpers.h>
 #include <appmodel.h>
 #include <dxgi1_6.h>
@@ -73,6 +84,7 @@
 #include "xml3all.h"
 #include "ystring.h"
 #include "mime2.h"
+#include "socket.h"
 
 extern const wchar_t* ttitle;
 extern std::shared_ptr<XML3::XML> SettingsX;
@@ -185,6 +197,47 @@ public:
 
 DWORD Run(const wchar_t* y, bool W, DWORD flg);
 void Locate([[maybe_unused]] const wchar_t* fi);
+
+
+
+
+inline std::vector<std::string>& split(std::string s, char delim, std::vector<std::string>& elems) {
+	std::stringstream ss(s);
+	std::string item;
+	while (std::getline(ss, item, delim))
+	{
+		elems.push_back(item);
+	}
+	return elems;
+}
+
+
+inline std::vector<std::string> split(std::string s, char delim) {
+	std::vector<std::string> elems;
+	split(s, delim, elems);
+	return elems;
+}
+
+
+
+inline std::vector<std::wstring>& split(std::wstring s, wchar_t delim, std::vector<std::wstring>& elems) {
+	std::wstringstream ss(s);
+	std::wstring item;
+	while (std::getline(ss, item, delim))
+	{
+		elems.push_back(item);
+	}
+	return elems;
+}
+
+
+inline std::vector<std::wstring> split(std::wstring s, wchar_t delim) {
+	std::vector<std::wstring> elems;
+	split(s, delim, elems);
+	return elems;
+}
+
+
 
 
 #include "qrcodegen.hpp"

@@ -16,15 +16,31 @@ using namespace winrt::Microsoft::UI::Xaml::Controls;
 
 WNDPROC wProc = 0;
 HICON hIcon1 = 0;
+void PostThemeChange();
 std::map<HWND, winrt::Windows::Foundation::IInspectable> windows;
 LRESULT CALLBACK cbx(HWND hh, UINT mm, WPARAM ww, LPARAM ll)
 {
+    if (mm == WM_USER + 100)
+    {
+		PostThemeChange();
+        return 0;
+    }
     return CallWindowProc(wProc, hh, mm, ww, ll);
 }
-
+DWORD mtid = 0;
 
 void PostThemeChange()
 {
+	if (mtid != GetCurrentThreadId())
+	{
+        for (auto& wi : windows)
+        {
+            PostMessage(wi.first, WM_USER + 100, 0, 0);
+            if (1)
+                return;
+        }
+		return;
+	}   
     int Theme = SettingsX->GetRootElement().vv("Theme").GetValueInt();
     if (Theme == 0)
     {
@@ -219,7 +235,11 @@ void ChangeAssets(const wchar_t* src, const wchar_t* dir_dest)
 
 int __stdcall wWinMain(HINSTANCE h, HINSTANCE, [[maybe_unused]] PWSTR t, int)
 {
+	mtid = GetCurrentThreadId();
     CoInitializeEx(0, COINIT_APARTMENTTHREADED);
+    WSADATA wData;
+    WSAStartup(MAKEWORD(2, 2), &wData);
+
 //    ChangeAssets(L"f:\\wuitools\\ExamAI\\app.png", L"f:\\wuitools\\ExamAI\\assets");
     hIcon1 = LoadIcon(h, L"ICON_1");
     {

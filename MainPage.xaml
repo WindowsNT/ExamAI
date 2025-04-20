@@ -146,7 +146,12 @@
                             <KeyboardAccelerator Key="F8" Modifiers="Shift" />
                         </MenuFlyoutItem.KeyboardAccelerators>
                     </MenuFlyoutItem>
-                </MenuBarItem>
+                <MenuFlyoutItem Text="{x:Bind txt(39),Mode=OneWay}" Click="OnUpload">
+                    <MenuFlyoutItem.KeyboardAccelerators>
+                        <KeyboardAccelerator Key="F8" Modifiers="Control" />
+                    </MenuFlyoutItem.KeyboardAccelerators>
+                </MenuFlyoutItem>
+            </MenuBarItem>
                 <MenuBarItem Title="{x:Bind txt(19),Mode=OneWay}" >
                     <MenuFlyoutItem Text="{x:Bind txt(21),Mode=OneWay}" Click="OnGenerateDataset">
                         <MenuFlyoutItem.KeyboardAccelerators>
@@ -195,7 +200,13 @@
                     </ListView.ItemTemplate>
                 </ListView>
             </PivotItem>
-            </Pivot>
+            <PivotItem Header="{x:Bind txt(40),Mode=OneWay}" >
+                <StackPanel Orientation="Vertical">
+                    <HyperlinkButton x:Name="hlb" Content="{x:Bind SvgSource2,Mode=OneWay}" NavigateUri="http://www.microsoft.com" />
+                <Image Width="150" Height="150"  x:Name="svgi"></Image>
+                </StackPanel>
+            </PivotItem>
+        </Pivot>
             
             
     </StackPanel>

@@ -122,6 +122,33 @@ cv::Mat imreadw(const wchar_t* filename, int flags = 1)
 
 }
 
+bool DetectQR(const wchar_t* img,int& k1,int& k2)
+{
+	// Read image
+	Mat inputImage;
+	inputImage = imreadw(img);
+
+	QRCodeDetector qrDecoder = QRCodeDetector::QRCodeDetector();
+
+	Mat bbox, rectifiedImage;
+
+	std::string data = qrDecoder.detectAndDecode(inputImage, bbox, rectifiedImage);
+	if (data.length() > 0)
+	{
+		// Itks key_x_y
+		std::vector<std::string> s = split(data, '_');
+		if (s.size() == 3)
+		{
+			std::string x = s[1].c_str();
+			std::string y = s[2].c_str();
+			k1 = atoi(x.c_str());
+			k2 = atoi(y.c_str());
+		}
+		return true;
+	}
+	return false;
+}
+
 std::vector<TRAIN_CLASS> AnswerTest(const wchar_t* rf)
 {
 	cv::Mat img = imreadw(rf, cv::IMREAD_COLOR);
@@ -203,11 +230,12 @@ std::vector<TRAIN_CLASS> AnswerTest(const wchar_t* rf)
 	std::vector<TRAIN_CLASS> results = Inference(thefiles, 1, 64, 64);
 
 #ifdef _DEBUG
-	for (const auto& r : boxes)
+/*	for (const auto& r : boxes)
 		cv::rectangle(img, r, cv::Scalar(0, 255, 0), 2);
 	cv::namedWindow("Detected Boxes", cv::WINDOW_NORMAL);
 	cv::imshow("Detected Boxes", img);
 	cv::waitKey(0);
+	*/
 #endif
 
 

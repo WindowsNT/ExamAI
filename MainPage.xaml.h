@@ -72,13 +72,21 @@ namespace winrt::ExamAI::implementation
 			_wnd = value;
 		}
 
+        std::string qr_listen_final;
+        std::wstring qr_listen_final2;
+
+        winrt::hstring SvgSource2();
+        
         winrt::event<Microsoft::UI::Xaml::Data::PropertyChangedEventHandler> m_propertyChanged;
         void Refresh(std::vector<std::wstring> strs);
         void Refresh(const wchar_t* s = L"");
+        void UploadThread();
+        void UploadThread2(SOCKET y);
         void Loaded(IInspectable const&, IInspectable const&);
         void OnNew(IInspectable const&, IInspectable const&);
         void OnOpen(IInspectable const&, IInspectable const&);
         void OnScan(IInspectable const&, IInspectable const&);
+        void OnUpload(IInspectable const&, IInspectable const&);
         void OnSave(IInspectable const&, IInspectable const&);
         void OnPrint(IInspectable const&, IInspectable const&);
         void OnPrintAll(IInspectable const&, IInspectable const&);
