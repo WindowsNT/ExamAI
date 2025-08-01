@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="ExamAI.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:ExamAI"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Loaded="Loaded"
+    mc:Ignorable="d">
+
+    <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+            <MenuBar HorizontalAlignment="Stretch" x:Name="menu" >
+                <MenuBarItem Title="{x:Bind txt(18),Mode=OneWay}" >
+                    <MenuFlyoutItem Text="{x:Bind txt(7),Mode=OneWay}" Click="OnNew" >
+                        <MenuFlyoutItem.Icon>
+                            <FontIcon Glyph="&#xE78B;"/>
+                        </MenuFlyoutItem.Icon>
+                        <MenuFlyoutItem.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="N" Modifiers="Control"/>
+                        </MenuFlyoutItem.KeyboardAccelerators>
+                    </MenuFlyoutItem>
+                    <MenuFlyoutItem Text="{x:Bind txt(8),Mode=OneWay}" Click="OnOpen">
+                        <MenuFlyoutItem.Icon>
+                            <FontIcon Glyph="&#xE8E5;"/>
+                        </MenuFlyoutItem.Icon>
+                        <MenuFlyoutItem.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="O" Modifiers="Control"/>
+                        </MenuFlyoutItem.KeyboardAccelerators>
+                    </MenuFlyoutItem>
+                    <MenuFlyoutItem Text="{x:Bind txt(9),Mode=OneWay}" Click="OnSave" >
+                        <MenuFlyoutItem.Icon>
+                            <FontIcon Glyph="&#xE74E;"/>
+                        </MenuFlyoutItem.Icon>
+                        <MenuFlyoutItem.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="S" Modifiers="Control"/>
+                        </MenuFlyoutItem.KeyboardAccelerators>
+                    </MenuFlyoutItem>
+                    <MenuFlyoutItem Text="{x:Bind txt(10),Mode=OneWay}" Click="OnSaveAs" >
+                        <MenuFlyoutItem.Icon>
+                            <FontIcon Glyph="&#xE792;"/>
+                        </MenuFlyoutItem.Icon>
+                        <MenuFlyoutItem.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="S" Modifiers="Control,Shift"/>
+                        </MenuFlyoutItem.KeyboardAccelerators>
+                    </MenuFlyoutItem>
+                    <MenuFlyoutSeparator/>
+                    <MenuFlyoutItem Text="{x:Bind txt(24),Mode=OneWay}" Click="OnPrint" >
+                        <MenuFlyoutItem.Icon>
+                            <FontIcon Glyph="&#xE792;"/>
+                        </MenuFlyoutItem.Icon>
+                        <MenuFlyoutItem.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="P" Modifiers="Control"/>
+                        </MenuFlyoutItem.KeyboardAccelerators>
+                    </MenuFlyoutItem>
+                <MenuFlyoutItem Text="{x:Bind txt(38),Mode=OneWay}" Click="OnPrintAll" >
+                    <MenuFlyoutItem.Icon>
+                        <FontIcon Glyph="&#xE792;"/>
+                    </MenuFlyoutItem.Icon>
+                    <MenuFlyoutItem.KeyboardAccelerators>
+                        <KeyboardAccelerator Key="P" Modifiers="Control,Shift"/>
+                    </MenuFlyoutItem.KeyboardAccelerators>
+                </MenuFlyoutItem>
+                <MenuFlyoutSeparator/>
+                    <MenuFlyoutItem Text="{x:Bind txt(11),Mode=OneWay}" Click="OnExit" >
+                        <MenuFlyoutItem.Icon>
+                            <FontIcon Glyph="&#xF3B1;"/>
+                        </MenuFlyoutItem.Icon>
+                    </MenuFlyoutItem>
+                </MenuBarItem>
+
+            <MenuBarItem Title="{x:Bind txt(29),Mode=OneWay}" >
+                <MenuFlyoutItem Text="{x:Bind txt(33),Mode=OneWay}" Click="OnUndo">
+                    <MenuFlyoutItem.KeyboardAccelerators>
+                        <KeyboardAccelerator Key="Z" Modifiers="Control" />
+                    </MenuFlyoutItem.KeyboardAccelerators>
+                </MenuFlyoutItem>
+                <MenuFlyoutItem Text="{x:Bind txt(34),Mode=OneWay}" Click="OnRedo">
+                    <MenuFlyoutItem.KeyboardAccelerators>
+                        <KeyboardAccelerator Key="Y" Modifiers="Control" />
+                    </MenuFlyoutItem.KeyboardAccelerators>
+                </MenuFlyoutItem>
+                <MenuFlyoutSeparator/>
+                <MenuFlyoutItem Text="{x:Bind txt(30),Mode=OneWay}" Click="OnAddQ">
+                    <MenuFlyoutItem.KeyboardAccelerators>
+                        <KeyboardAccelerator Key="Q" Modifiers="Control" />
+                    </MenuFlyoutItem.KeyboardAccelerators>
+                </MenuFlyoutItem>
+                <MenuFlyoutSeparator/>
+                <MenuFlyoutItem Text="{x:Bind txt(32),Mode=OneWay}" Click="OnSelectAll">
+                    <MenuFlyoutItem.KeyboardAccelerators>
+                        <KeyboardAccelerator Key="A" Modifiers="Control"/>
+                    </MenuFlyoutItem.KeyboardAccelerators>
+                </MenuFlyoutItem>
+                <MenuFlyoutSeparator/>
+                <MenuFlyoutItem Text="{x:Bind txt(31),Mode=OneWay}" Click="OnDeleteQ">
+                    <MenuFlyoutItem.KeyboardAccelerators>
+                        <KeyboardAccelerator Key="Delete" />
+                    </MenuFlyoutItem.KeyboardAccelerators>
+                </MenuFlyoutItem>
+            </MenuBarItem>
+
+
+
+            <MenuBarItem Title="{x:Bind txt(35),Mode=OneWay}" >
+                <MenuFlyoutItem Text="{x:Bind txt(30),Mode=OneWay}" Click="OnAddA">
+                    <MenuFlyoutItem.KeyboardAccelerators>
+                        <KeyboardAccelerator Key="Q" Modifiers="Control,Shift" />
+                    </MenuFlyoutItem.KeyboardAccelerators>
+                </MenuFlyoutItem>
+                <MenuFlyoutSeparator/>
+                <MenuFlyoutItem Text="{x:Bind txt(32),Mode=OneWay}" Click="OnSelectAllA">
+                    <MenuFlyoutItem.KeyboardAccelerators>
+                        <KeyboardAccelerator Key="A" Modifiers="Control,Shift"/>
+                    </MenuFlyoutItem.KeyboardAccelerators>
+                </MenuFlyoutItem>
+                <MenuFlyoutSeparator/>
+                <MenuFlyoutItem Text="{x:Bind txt(36),Mode=OneWay}" Click="OnMarkC">
+                    <MenuFlyoutItem.KeyboardAccelerators>
+                        <KeyboardAccelerator Key="M" Modifiers="Control"/>
+                    </MenuFlyoutItem.KeyboardAccelerators>
+                </MenuFlyoutItem>
+                <MenuFlyoutItem Text="{x:Bind txt(37),Mode=OneWay}" Click="OnMarkI">
+                    <MenuFlyoutItem.KeyboardAccelerators>
+                        <KeyboardAccelerator Key="M" Modifiers="Shift"/>
+                    </MenuFlyoutItem.KeyboardAccelerators>
+                </MenuFlyoutItem>
+                <MenuFlyoutSeparator/>
+                <MenuFlyoutItem Text="{x:Bind txt(31),Mode=OneWay}" Click="OnDeleteQ">
+                    <MenuFlyoutItem.KeyboardAccelerators>
+                        <KeyboardAccelerator Key="Delete" />
+                    </MenuFlyoutItem.KeyboardAccelerators>
+                </MenuFlyoutItem>
+            </MenuBarItem>
+
+
+
+            <MenuBarItem Title="{x:Bind txt(26),Mode=OneWay}" >
+                    <MenuFlyoutItem Text="{x:Bind txt(27),Mode=OneWay}" Click="OnAnswer">
+                        <MenuFlyoutItem.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="F8" />
+                        </MenuFlyoutItem.KeyboardAccelerators>
+                    </MenuFlyoutItem>
+                    <MenuFlyoutItem Text="{x:Bind txt(25),Mode=OneWay}" Click="OnScan">
+                        <MenuFlyoutItem.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="F8" Modifiers="Shift" />
+                        </MenuFlyoutItem.KeyboardAccelerators>
+                    </MenuFlyoutItem>
+                <MenuFlyoutItem Text="{x:Bind txt(39),Mode=OneWay}" Click="OnUpload">
+                    <MenuFlyoutItem.KeyboardAccelerators>
+                        <KeyboardAccelerator Key="F8" Modifiers="Control" />
+                    </MenuFlyoutItem.KeyboardAccelerators>
+                </MenuFlyoutItem>
+            </MenuBarItem>
+                <MenuBarItem Title="{x:Bind txt(19),Mode=OneWay}" >
+                    <MenuFlyoutItem Text="{x:Bind txt(21),Mode=OneWay}" Click="OnGenerateDataset">
+                        <MenuFlyoutItem.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="F2" Modifiers="Menu,Shift"/>
+                        </MenuFlyoutItem.KeyboardAccelerators>
+                    </MenuFlyoutItem>
+                    <MenuFlyoutSeparator    />
+                    <MenuFlyoutItem Text="{x:Bind txt(22),Mode=Oneway}" Click="OnTrainPython">
+                        <MenuFlyoutItem.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="F3" Modifiers="Menu,Shift"/>
+                        </MenuFlyoutItem.KeyboardAccelerators>
+                    </MenuFlyoutItem>
+                    <!--
+                    <MenuFlyoutItem Text="{x:Bind txt(28),Mode=Oneway}" Click="OnValidatePython">
+                        <MenuFlyoutItem.KeyboardAccelerators>
+                            <KeyboardAccelerator Key="F3" Modifiers="Menu,Control"/>
+                        </MenuFlyoutItem.KeyboardAccelerators>
+                    </MenuFlyoutItem>
+                    -->
+                    <MenuFlyoutItem Text="{x:Bind txt(23),Mode=Oneway}" IsEnabled="False" Click="OnTrain">
+                    </MenuFlyoutItem>
+                </MenuBarItem>
+            </MenuBar>
+
+            <Pivot>
+                <PivotItem Header="{x:Bind txt(29),Mode=OneWay}">
+                <ListView x:Name="xListView" SelectionMode="Multiple" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ItemsSource="{x:Bind li_Questions,Mode=OneWay}" RightTapped="OnLV1RightTapped"  >
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="local:Item">
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock Text="{x:Bind Name1, Mode=OneWay}" FontSize="20"/>
+
+                                <ListView x:Name="xListView2" SelectionMode="Multiple" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ItemsSource="{x:Bind li_Answers,Mode=OneWay}" RightTapped="OnLV2RightTapped">
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate x:DataType="local:Item">
+                                            <StackPanel Orientation="Vertical">
+                                                <TextBlock Text="{x:Bind Name1, Mode=OneWay}" FontSize="13" Foreground="{x:Bind ColorX}"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
+
+                                
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </PivotItem>
+            <PivotItem Header="{x:Bind txt(40),Mode=OneWay}" >
+                <StackPanel Orientation="Vertical">
+                    <HyperlinkButton x:Name="hlb" Content="{x:Bind SvgSource2,Mode=OneWay}" NavigateUri="http://www.microsoft.com" />
+                <Image Width="150" Height="150"  x:Name="svgi"></Image>
+                </StackPanel>
+            </PivotItem>
+        </Pivot>
+            
+            
+    </StackPanel>
+</Page>

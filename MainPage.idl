@@ -1,0 +1,15 @@
+import "Item.idl";
+
+namespace ExamAI
+{
+    [default_interface]
+    runtimeclass MainPage : Microsoft.UI.Xaml.Controls.Page, Microsoft.UI.Xaml.Data.INotifyPropertyChanged
+    {
+        MainPage();
+        static String txt(Int32 sidx);
+        String SvgSource2{ get; };
+        void Refresh();
+		Int64 wnd;
+        Windows.Foundation.Collections.IObservableVector<Item> li_Questions{ get; };
+    }
+}

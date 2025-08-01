@@ -1,0 +1,16 @@
+namespace ExamAI
+{
+	[default_interface]
+	runtimeclass Item : Microsoft.UI.Xaml.Data.INotifyPropertyChanged
+	{
+			Item();
+			String Name1;
+			String Name2;
+			Int64 Source;
+			Boolean Sel{ get; set; };
+			Boolean Correct;
+			Microsoft.UI.Xaml.Media.Brush ColorX{ get; };
+			Windows.Foundation.Collections.IObservableVector<Item> li_Answers{ get; };
+
+	}
+}

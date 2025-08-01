@@ -1,0 +1,1 @@
+# ExamAIA DirectML application to generate multiple-choice exams and apply ML to identify ticks, dots and fills to correct answers.
